@@ -1,0 +1,12 @@
+data/*.sqlite3
+data/*.sqlite3-*
+data/secrets.json
+exports/*.pdf
+exports/*.xlsx
+output/
+server.log
+server.*.log
+dynamic_data.log
+tmp/
+__pycache__/
+*.pyc

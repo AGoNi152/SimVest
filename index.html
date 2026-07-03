@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SimVest 2.0 模拟投资驾驶舱</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">Simulation Only</p>
+          <h1>SimVest 2.0 模拟投资驾驶舱</h1>
+          <p class="subtitle">公开数据、组合估值、事件因果链、AI 建议与人工确认交易闭环。</p>
+        </div>
+        <div class="top-actions">
+          <button id="syncDataBtn" class="ghost-btn" type="button">同步公开数据</button>
+          <button id="syncUniverseBtn" class="ghost-btn" type="button">同步全市场目录</button>
+          <button id="runDailyBtn" class="primary-btn" type="button">生成今日报告</button>
+          <button id="aiAdviceBtnTop" class="ghost-btn" type="button">生成 AI 建议</button>
+          <button id="expertReportBtnTop" class="ghost-btn" type="button">专家辩论报告</button>
+          <button id="refreshBtn" class="ghost-btn" type="button">刷新</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab active" data-tab="dashboard" type="button">驾驶舱</button>
+        <button class="tab" data-tab="decision" type="button">决策</button>
+        <button class="tab" data-tab="stocks" type="button">股票工作台</button>
+        <button class="tab" data-tab="data" type="button">数据健康</button>
+        <button class="tab" data-tab="events" type="button">事件链</button>
+        <button class="tab" data-tab="assets" type="button">资产与风控</button>
+      </nav>
+
+      <main>
+        <section id="dashboard" class="view active">
+          <section class="command-strip">
+            <div>
+              <span class="label">今日主线</span>
+              <strong id="dashboardThesis">加载中</strong>
+            </div>
+            <div id="dashboardBadges" class="chip-row"></div>
+          </section>
+
+          <section id="metricGrid" class="metric-grid"></section>
+
+          <section class="layout-main">
+            <article class="workspace wide">
+              <div class="section-heading">
+                <div>
+                  <h2>组合表现</h2>
+                  <span>Portfolio vs. CSI 300 / S&P 500</span>
+                </div>
+                <div id="benchmarkSummary" class="chip-row"></div>
+              </div>
+              <canvas id="performanceChart" width="980" height="300"></canvas>
+            </article>
+
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>今日待办</h2>
+                  <span>Human confirmation queue</span>
+                </div>
+              </div>
+              <div id="todoList" class="item-list"></div>
+            </article>
+          </section>
+
+          <section class="layout-main">
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>持仓盈亏</h2>
+                  <span>Marked to latest public prices</span>
+                </div>
+              </div>
+              <div id="positionsList" class="item-list"></div>
+            </article>
+
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>事件因果链</h2>
+                  <span>What changed and why it matters</span>
+                </div>
+              </div>
+              <div id="eventChainPreview" class="item-list"></div>
+            </article>
+          </section>
+        </section>
+
+        <section id="decision" class="view">
+          <section class="workspace">
+            <div class="section-heading with-actions">
+              <div>
+                <h2>每日决策报告</h2>
+                <span>Market thesis and recommended actions</span>
+              </div>
+              <div class="button-row">
+                <button id="aiAdviceBtn" class="primary-btn" type="button">生成 AI 当日建议</button>
+                <button id="pdfBtn" class="ghost-btn" type="button">PDF</button>
+                <button id="excelBtn" class="ghost-btn" type="button">Excel</button>
+              </div>
+            </div>
+            <div id="reportBlock" class="report-block"></div>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <h2>AI 当日建议</h2>
+                <span>Uses latest synced data, current positions and risk rules</span>
+              </div>
+            </div>
+            <div id="aiAdviceBlock" class="report-block"></div>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading with-actions">
+              <div>
+                <h2>专家委员会报告</h2>
+                <span>Public data, portfolio valuation and event-chain experts debate before final report</span>
+              </div>
+              <div class="button-row">
+                <button id="expertReportBtn" class="primary-btn" type="button">生成专家辩论报告</button>
+                <button id="expertPdfBtn" class="ghost-btn" type="button">PDF</button>
+                <button id="expertExcelBtn" class="ghost-btn" type="button">Excel</button>
+                <button id="expertMarkdownBtn" class="ghost-btn" type="button">Markdown</button>
+              </div>
+            </div>
+            <div id="expertReportBlock" class="report-block"></div>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <h2>模拟交易确认台</h2>
+                <span>Orders are recorded only after manual confirmation</span>
+              </div>
+            </div>
+            <div id="decisionsTable" class="table-wrap"></div>
+          </section>
+        </section>
+
+        <section id="stocks" class="view">
+          <section class="command-strip">
+            <div>
+              <span class="label">股票池</span>
+              <strong id="stockHeadline">A 股与港股个股监控</strong>
+            </div>
+            <label class="search-box">
+              <span>搜索</span>
+              <input id="stockSearch" type="search" placeholder="代码、名称、市场" />
+            </label>
+          </section>
+
+          <section id="stockSummary" class="metric-grid compact"></section>
+
+          <section class="layout-main">
+            <article class="workspace wide">
+              <div class="section-heading">
+                <div>
+                  <h2>个股列表</h2>
+                  <span>Price, trend, score and tradability</span>
+                </div>
+              </div>
+              <div id="stocksTable" class="table-wrap"></div>
+            </article>
+
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>个股详情</h2>
+                  <span>Selected stock detail</span>
+                </div>
+              </div>
+              <div id="stockDetail" class="detail-panel"></div>
+              <canvas id="stockChart" width="460" height="220"></canvas>
+            </article>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading with-actions">
+              <div>
+                <h2>全市场目录</h2>
+                <span>A 股、港股、场内基金与未来可接入的更多金融产品</span>
+              </div>
+              <button id="syncUniverseBtnInline" class="primary-btn" type="button">同步全市场目录</button>
+            </div>
+            <div id="universeSummary" class="metric-grid compact"></div>
+            <div class="filter-row">
+              <label>
+                <span>搜索</span>
+                <input id="universeSearch" type="search" placeholder="代码、名称、行业、板块" />
+              </label>
+              <label>
+                <span>市场</span>
+                <select id="universeMarket">
+                  <option value="">全部</option>
+                  <option value="CN">中国大陆</option>
+                  <option value="HK">香港</option>
+                </select>
+              </label>
+              <label>
+                <span>品类</span>
+                <select id="universeClass">
+                  <option value="">全部</option>
+                  <option value="equity">股票</option>
+                  <option value="fund">基金 / ETF</option>
+                </select>
+              </label>
+              <label>
+                <span>排序</span>
+                <select id="universeSort">
+                  <option value="turnover">成交额</option>
+                  <option value="change">涨跌幅</option>
+                  <option value="market_cap">总市值</option>
+                  <option value="symbol">代码</option>
+                </select>
+              </label>
+            </div>
+            <div id="universeTable" class="table-wrap"></div>
+            <div class="pager">
+              <button id="universePrev" class="ghost-btn" type="button">上一页</button>
+              <span id="universePageInfo">--</span>
+              <button id="universeNext" class="ghost-btn" type="button">下一页</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="data" class="view">
+          <section class="command-strip">
+            <div>
+              <span class="label">数据健康</span>
+              <strong id="dataHealthTitle">检查公开数据覆盖与新鲜度</strong>
+            </div>
+            <button id="syncDataBtnInline" class="primary-btn" type="button">同步公开数据</button>
+          </section>
+
+          <section id="dataHealthGrid" class="metric-grid compact"></section>
+
+          <section class="layout-main">
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>板块覆盖</h2>
+                  <span>Bonds / Futures / FX / Stocks / Gold / Energy</span>
+                </div>
+              </div>
+              <div id="coverageGrid" class="coverage-grid"></div>
+            </article>
+
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>来源状态</h2>
+                  <span>Latest public data source runs</span>
+                </div>
+              </div>
+              <div id="sourceRuns" class="table-wrap"></div>
+            </article>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <h2>公共信息原文</h2>
+                <span>Fetched source documents</span>
+              </div>
+            </div>
+            <div id="rawDocuments" class="item-list"></div>
+          </section>
+        </section>
+
+        <section id="events" class="view">
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <h2>市场事件链</h2>
+                <span>Reliable signals converted into portfolio implications</span>
+              </div>
+            </div>
+            <div id="eventsList" class="item-list event-list"></div>
+          </section>
+        </section>
+
+        <section id="assets" class="view">
+          <section class="layout-main">
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>资产配置</h2>
+                  <span>Current exposure by bucket</span>
+                </div>
+              </div>
+              <div id="allocationBars" class="bar-list"></div>
+            </article>
+
+            <article class="workspace">
+              <div class="section-heading">
+                <div>
+                  <h2>风控边界</h2>
+                  <span>Hard guardrails</span>
+                </div>
+              </div>
+              <div id="riskPolicy" class="coverage-grid"></div>
+            </article>
+          </section>
+
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <h2>资产池</h2>
+                <span>All tradable and observable instruments</span>
+              </div>
+            </div>
+            <div id="assetsTable" class="table-wrap"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

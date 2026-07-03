@@ -1,0 +1,157 @@
+{
+  "enabled": true,
+  "http_timeout_seconds": 12,
+  "min_interval_seconds": 3,
+  "market_quotes": [
+    {
+      "id": "CSI300",
+      "asset_id": null,
+      "symbol": "000300.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh000300"
+    },
+    {
+      "id": "SP500",
+      "asset_id": null,
+      "symbol": "SPX",
+      "source": "yahoo_chart",
+      "yahoo_symbol": "^GSPC"
+    },
+    {
+      "id": "510300.SH",
+      "asset_id": "asset_510300",
+      "symbol": "510300.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh510300"
+    },
+    {
+      "id": "510880.SH",
+      "asset_id": "asset_510880",
+      "symbol": "510880.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh510880"
+    },
+    {
+      "id": "159920.SZ",
+      "asset_id": "asset_159920",
+      "symbol": "159920.SZ",
+      "source": "sina_simple",
+      "sina_symbol": "s_sz159920"
+    },
+    {
+      "id": "513500.SH",
+      "asset_id": "asset_513500",
+      "symbol": "513500.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh513500"
+    },
+    {
+      "id": "511010.SH",
+      "asset_id": "asset_511010",
+      "symbol": "511010.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh511010"
+    },
+    {
+      "id": "511880.SH",
+      "asset_id": "asset_511880",
+      "symbol": "511880.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh511880"
+    },
+    {
+      "id": "518880.SH",
+      "asset_id": "asset_518880",
+      "symbol": "518880.SH",
+      "source": "sina_simple",
+      "sina_symbol": "s_sh518880"
+    },
+    {
+      "id": "162411.SZ",
+      "asset_id": "asset_162411",
+      "symbol": "162411.SZ",
+      "source": "sina_simple",
+      "sina_symbol": "s_sz162411"
+    },
+    {
+      "id": "0700.HK",
+      "asset_id": "asset_0700hk",
+      "symbol": "0700.HK",
+      "source": "sina_hk",
+      "sina_symbol": "hk00700"
+    },
+    {
+      "id": "GOLD",
+      "asset_id": null,
+      "symbol": "XAUUSD",
+      "source": "yahoo_chart",
+      "yahoo_symbol": "GC=F"
+    },
+    {
+      "id": "OIL",
+      "asset_id": null,
+      "symbol": "CL.F",
+      "source": "yahoo_chart",
+      "yahoo_symbol": "CL=F"
+    },
+    {
+      "id": "USDCNH",
+      "asset_id": null,
+      "symbol": "USD/CNH",
+      "source": "yahoo_chart",
+      "yahoo_symbol": "CNH=X"
+    }
+  ],
+  "rss_feeds": [
+    {
+      "name": "HKEX News",
+      "url": "https://www.hkexnews.hk/index.htm",
+      "region": "香港",
+      "category": "company",
+      "enabled": false
+    },
+    {
+      "name": "FRED Blog",
+      "url": "https://fredblog.stlouisfed.org/feed/",
+      "region": "美国",
+      "category": "macro",
+      "enabled": true
+    }
+  ],
+  "gdelt_queries": [
+    {
+      "name": "China Hong Kong Markets",
+      "query": "China Hong Kong stock market policy liquidity",
+      "region": "中国大陆/香港",
+      "category": "market",
+      "max_records": 8,
+      "enabled": true
+    },
+    {
+      "name": "Geopolitics Oil Gold",
+      "query": "geopolitics oil gold Middle East Taiwan Strait Russia Ukraine",
+      "region": "全球",
+      "category": "geopolitics",
+      "max_records": 8,
+      "enabled": true
+    }
+  ],
+  "world_bank_indicators": [
+    {
+      "country": "CHN",
+      "indicator": "NY.GDP.MKTP.KD.ZG",
+      "name": "China GDP growth",
+      "region": "中国大陆",
+      "category": "macro",
+      "enabled": true
+    },
+    {
+      "country": "HKG",
+      "indicator": "NY.GDP.MKTP.KD.ZG",
+      "name": "Hong Kong GDP growth",
+      "region": "香港",
+      "category": "macro",
+      "enabled": true
+    }
+  ]
+}
